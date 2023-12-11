@@ -15,7 +15,7 @@ class NecIXBase(BaseConnection):
 
     def config_mode(
         self,
-        config_command: str = "configure",
+        config_command: str = "svintr-config",
         pattern: str = "",
         re_flags: int = 0,
     ) -> str:
