@@ -250,7 +250,7 @@ CLASS_MAPPER_BASE = {
     "mellanox_mlnxos": MellanoxMlnxosSSH,
     "mrv_lx": MrvLxSSH,
     "mrv_optiswitch": MrvOptiswitchSSH,
-    "nec_ix_os": NecIXSSH,
+    "nec_ix": NecIXSSH,
     "netapp_cdot": NetAppcDotSSH,
     "netgear_prosafe": NetgearProSafeSSH,
     "netscaler": NetscalerSSH,

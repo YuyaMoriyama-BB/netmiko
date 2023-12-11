@@ -1,0 +1,9 @@
+from netmiko.cisco_base_connection import CiscoBaseConnection
+
+class NecIXBase(CiscoBaseConnection):
+    def exit_config_mode(self, exit_config: str = "exit", pattern: str = r"#.*") -> str:
+        """Exit from configuration mode."""
+        return super(NecIXBase,self).exit_config_mode(exit_config=exit_config, pattern=pattern)
+
+class NecIXSSH(NecIXBase):
+    pass

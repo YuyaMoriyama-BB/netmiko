@@ -3,7 +3,7 @@ from __future__ import print_function, unicode_literals
 
 # Netmiko is the same as ConnectHandler
 from netmiko import Netmiko
-from getpass import getpass
+#from getpass import getpass
 
 my_device = {
     "host": "24bb:bb00:a000:1::1",
