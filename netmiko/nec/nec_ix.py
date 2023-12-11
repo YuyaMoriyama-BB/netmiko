@@ -1,3 +1,4 @@
+import re
 from netmiko.base_connection import BaseConnection
 from netmiko import log
 
