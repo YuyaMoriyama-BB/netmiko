@@ -15,13 +15,26 @@ class NecIXBase(BaseConnection):
 
     def config_mode(
         self,
-        config_command: str = "svintr-config",
+        config_command: str = "configure",
         pattern: str = "",
         re_flags: int = 0,
     ) -> str:
-        return super().config_mode(
-            config_command=config_command, pattern=pattern, re_flags=re_flags
-        )
+        
+        try :
+            return super().config_mode(
+                config_command=config_command, pattern=pattern, re_flags=re_flags
+            )
+
+        except ValueError as e:
+            # Enter configuration mode (supervisor interrupt)
+            config_command = "svintr-config"
+            output = super().config_mode(
+                config_command=config_command, pattern=pattern, re_flags=re_flags
+            )
+            self.write_channel(self.normalize_cmd("configure"))
+            return output
+            
+
 
     def exit_config_mode(self, exit_config: str = "exit", pattern: str = r"#") -> str:
         """Exit from configuration mode.
@@ -69,7 +82,7 @@ class NecIXBase(BaseConnection):
         confirm_response: str = "",
     ) -> str:
         """Saves Config."""
-        self.enable()
+        self.config_mode()
         if confirm:
             output = self._send_command_timing_str(
                 command_string=cmd, strip_prompt=False, strip_command=False
@@ -95,7 +108,9 @@ class NecIXBase(BaseConnection):
 
     def send_command(self, *args, **kwargs):
         self.config_mode()
-        return super().send_command(*args, **kwargs)
+        return_val = super().send_command(*args, **kwargs)
+        self.exit_config_mode()
+        return return_val
 
 class NecIXSSH(NecIXBase):
     pass

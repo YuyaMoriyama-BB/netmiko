@@ -36,5 +36,5 @@ print("=== Post Check ===")
 output = net_connect.send_command("show running-config access-list")
 print(output)
 
-
+net_connect.save_config()
 net_connect.disconnect()
