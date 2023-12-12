@@ -9,15 +9,12 @@ my_device = {
     "host": "24bb:bb00:a000:1::1",
     "username": "spgadmbb",
     "password": "spgbitbrain0860bb",
-    "device_type": "nec_ix_os",
+    "device_type": "nec_ix",
 }
-
 net_connect = Netmiko(**my_device)
 
-net_connect.config_mode()
-
 print("=== Pre Check ===")
-output = net_connect.send_command("show running-config interface Tunnel10.0")
+output = net_connect.send_command("show running-config access-list")
 print(output)
 
 
@@ -25,13 +22,19 @@ print("\n=== Add Config ===")
 commands = ["interface Tunnel10.0",
             "ipv6 enable",
             "ipv6 address fd00:a::1/16",
-            "configure"]
+            ]
+output = net_connect.send_config_set(commands)
+print(output)
+
+print("\n=== Add Config ===")
+commands = ["ipv6 access-list test permit icmp echo src any dest any"]
+
 output = net_connect.send_config_set(commands)
 print(output)
 
 print("=== Post Check ===")
-output = net_connect.send_command("show running-config interface Tunnel10.0")
+output = net_connect.send_command("show running-config access-list")
 print(output)
 
-
+net_connect.save_config()
 net_connect.disconnect()
